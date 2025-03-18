@@ -173,8 +173,9 @@ namespace images {
     //% group="images util"
     //% inlineInputMode=inline
     //% weight=67
-    export function blitrow(to: Image, dsx: number, dsy: number, from: Image, fox: number, foh: number = from.height) {
+    export function blitrow(to: Image, dsx: number, dsy: number, from: Image, fox: number, foh: number = null) {
         if (!to || !from) return;
+        if (!foh) foh = from.height
         to.blitRow(dsx, dsy, from, fox, foh)
     }
 
