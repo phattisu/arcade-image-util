@@ -154,28 +154,44 @@ namespace images {
     //% inlineInputMode=inline
     //% weight=68
     export function copy(to: Image, from: Image) {
+        if (!to || !from) return;
         to.copyFrom(from)
     }
 
     /**
      * get current image copy from next image
      * @param the current image
-     * @param the next image
+     * @param x from current image
+     * @param y from current image
+     * @param from the image
+     * @param x from the image
+     * @param height from the image
      */
     //% blockid=image_blitrow
     //% block="$to set blit row at distX: $dsx distY: $dsy by $from=screen_image_picker fromX: $fox|| fromHeight: $foh "
     //% to.shadow=variables_get to.defl=picture
     //% group="image oparetor"
     //% inlineInputMode=inline
-    //% weight=68
+    //% weight=67
     export function blitrow(to: Image, dsx: number, dsy: number, from: Image, fox: number, foh: number = from.height) {
+        if (!to || !from) return;
         to.blitRow(dsx, dsy, from, fox, foh)
     }
 
     /**
-     * get current image copy from next image
+     * get image checking between current image's area and refferent image's area
      * @param the current image
-     * @param the next image
+     * @param x from current image
+     * @param y from current image
+     * @param width from current image
+     * @param height from current image
+     * @param the refferent image
+     * @param x from refferent image
+     * @param y from refferent image
+     * @param width from refferent image
+     * @param height from refferent image
+     * @param the transparenting mode
+     * @param the checking mode
      */
     //% blockid=image_blitrow
     //% block="$to get blit at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
@@ -183,15 +199,16 @@ namespace images {
     //% tspr.shadow=toggleYesNo cek.shadow=toggleYesNo
     //% group="image oparetor"
     //% inlineInputMode=inline
-    //% weight=68
+    //% weight=66
     export function blit(to: Image, dsx: number, dsy: number, dsw: number, dsh: number, src: Image, srx: number, sry: number, srw: number, srh: number, tspr: boolean = true, cek: boolean = false) {
-        to.blit(dsx, dsy, dsw, dsh, src, srx, sry, srw, srh, tspr, cek)
+        if (!to || !src) return false
+        return to.blit(dsx, dsy, dsw, dsh, src, srx, sry, srw, srh, tspr, cek)
     }
 
     /**
      * image overlap the other image
-     * @param your image to overlap
-     * @param your image to get overlap
+     * @param the current image
+     * @param the overlaping image
      * @param position x image value
      * @param position y image value
      */
@@ -257,31 +274,10 @@ namespace images {
     //%inlineInputMode=inline
     //%weight=68
     export function square(uimg: Image) {
+        if (!uimg) return;
         const imax = Math.max(uimg.width, uimg.height), uuimg = image.create(imax, imax)
         stamp(uimg.clone(), uuimg, Math.floor((imax / 2) - (uimg.width / 2)), Math.floor((imax / 2) - (uimg.height / 2)))
         uimg.copyFrom(uuimg)
     }
 
 }
-
-let uval = image.create(10,10)
-uval.blitRow(2,0,img`
-    . . . . c c c b b b b b . . . .
-    . . c c b 4 4 4 4 4 4 b b b . .
-    . c c 4 4 4 4 4 5 4 4 4 4 b c .
-    . e 4 4 4 4 4 4 4 4 4 5 4 4 e .
-    e b 4 5 4 4 5 4 4 4 4 4 4 4 b c
-    e b 4 4 4 4 4 4 4 4 4 4 5 4 4 e
-    e b b 4 4 4 4 4 4 4 4 4 4 4 b e
-    . e b 4 4 4 4 4 5 4 4 4 4 b e .
-    8 7 e e b 4 4 4 4 4 4 b e e 6 8
-    8 7 2 e e e e e e e e e e 2 7 8
-    e 6 6 2 2 2 2 2 2 2 2 2 2 6 c e
-    e c 6 7 6 6 7 7 7 6 6 7 6 c c e
-    e b e 8 8 c c 8 8 c c c 8 e b e
-    e e b e c c e e e e e c e b e e
-    . e e b b 4 4 4 4 4 4 4 4 e e .
-    . . . c c c c c e e e e e . . .
-`,2,16)
-
-let mySprite = sprites.create(uval, SpriteKind.Player)
