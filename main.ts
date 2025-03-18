@@ -82,7 +82,7 @@ namespace images {
      * @param direction y number value
      */
     //% blockid=images_scrollimage
-    //% block="scroll $src by dx: $dx dy: $dy"
+    //% block="scroll $src=screen_image_picker by dx: $dx dy: $dy"
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
     //% inlineInputMode=inline
@@ -150,7 +150,7 @@ namespace images {
     //% blockid=image_copyimage
     //% block="$to copy from $from=screen_image_picker"
     //% to.shadow=variables_get to.defl=picture
-    //% group="image oparetor"
+    //% group="images util"
     //% inlineInputMode=inline
     //% weight=68
     export function copy(to: Image, from: Image) {
@@ -170,7 +170,7 @@ namespace images {
     //% blockid=image_blitrow
     //% block="$to set blit row at distX: $dsx distY: $dsy by $from=screen_image_picker fromX: $fox|| fromHeight: $foh "
     //% to.shadow=variables_get to.defl=picture
-    //% group="image oparetor"
+    //% group="images util"
     //% inlineInputMode=inline
     //% weight=67
     export function blitrow(to: Image, dsx: number, dsy: number, from: Image, fox: number, foh: number = from.height) {
@@ -197,7 +197,7 @@ namespace images {
     //% block="$to get blit at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
     //% to.shadow=variables_get to.defl=picture
     //% tspr.shadow=toggleYesNo cek.shadow=toggleYesNo
-    //% group="image oparetor"
+    //% group="images util"
     //% inlineInputMode=inline
     //% weight=66
     export function blit(to: Image, dsx: number, dsy: number, dsw: number, dsh: number, src: Image, srx: number, sry: number, srw: number, srh: number, tspr: boolean = true, cek: boolean = false) {
