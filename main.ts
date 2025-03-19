@@ -113,7 +113,7 @@ namespace images {
      * @param position x image value
      * @param position y image value
      */
-    //% blockid=images_drawtransparentimage
+    //% blockid=images_stampimage
     //% block="draw $src=screen_image_picker to $to at x: $x y: $y"
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
@@ -131,7 +131,7 @@ namespace images {
      * @param position x image value
      * @param position y image value
      */
-    //% blockid=images_drawimage
+    //% blockid=images_restampimage
     //% block="redraw $src=screen_image_picker to $to at x: $x y: $y"
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
@@ -147,7 +147,7 @@ namespace images {
      * @param the current image
      * @param the next image
      */
-    //% blockid=image_copyimage
+    //% blockid=images_copyimage
     //% block="$to copy from $from=screen_image_picker"
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
@@ -167,7 +167,7 @@ namespace images {
      * @param x from the image
      * @param height from the image
      */
-    //% blockid=image_blitrow
+    //% blockid=images_blitrow
     //% block="$to set blit row at distX: $dsx distY: $dsy by $from=screen_image_picker fromX: $fox|| fromHeight: $foh "
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
@@ -194,7 +194,7 @@ namespace images {
      * @param the transparenting mode
      * @param the checking mode
      */
-    //% blockid=image_blitrow
+    //% blockid=images_blitrow
     //% block="$to get blit row at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
     //% to.shadow=variables_get to.defl=picture
     //% tspr.shadow=toggleYesNo
@@ -270,7 +270,7 @@ namespace images {
      * get your image resize to square image
      * @param the current image
      */
-    //%blockid=image_squareimage
+    //%blockid=images_squareimage
     //%block="$uimg=screen_image_picker as square"
     //%group="images util"
     //%inlineInputMode=inline
