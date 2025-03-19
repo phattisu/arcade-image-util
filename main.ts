@@ -195,9 +195,10 @@ namespace images {
      * @param the checking mode
      */
     //% blockid=image_blitrow
-    //% block="$to get blit at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
+    //% block="$to get blit row at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
     //% to.shadow=variables_get to.defl=picture
-    //% tspr.shadow=toggleYesNo cek.shadow=toggleYesNo
+    //% tspr.shadow=toggleYesNo
+    //% cek.shadow=toggleYesNo
     //% group="images util"
     //% inlineInputMode=inline
     //% weight=66
