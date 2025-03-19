@@ -272,7 +272,7 @@ namespace images {
      */
     //%blockid=image_squareimage
     //%block="$uimg=screen_image_picker as square"
-    //%group="image oparetor"
+    //%group="images util"
     //%inlineInputMode=inline
     //%weight=68
     export function square(uimg: Image) {
