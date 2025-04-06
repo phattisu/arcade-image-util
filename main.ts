@@ -82,16 +82,16 @@ namespace images {
      * @param direction y number value
      */
     //% blockid=images_scrollimage
-    //% block="scroll $src=screen_image_picker by dx: $dx dy: $dy"
+    //% block="scroll $src=screen_image_picker by vx: $vx vy: $vy"
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
     //% inlineInputMode=inline
     //% weight=80
-    export function scroll(src: Image, dx: number, dy: number) {
+    export function scroll(src: Image, vx: number, vy: number) {
         if (!src ) return;
-        let uimg = src.clone()
+        let dx = vx * game.currentScene().eventContext.deltaTime, dy = vy * game.currentScene().eventContext.deltaTime
+        let uimg = src.clone(), usrc = image.create(uimg.width, uimg.height)
         let dxi = mod(dx, uimg.width), dyi = mod(dy, uimg.height)
-        let usrc = image.create(uimg.width, uimg.height)
         usrc.drawImage(uimg, dxi - uimg.width, dyi - uimg.height); usrc.drawImage(uimg, dxi, dyi)
         usrc.drawImage(uimg, dxi - uimg.width, dyi); usrc.drawImage(uimg, dxi, dyi - uimg.height)
         src.drawImage(usrc,0,0)
