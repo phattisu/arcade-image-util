@@ -89,9 +89,9 @@ namespace images {
     //% weight=80
     export function scroll(src: Image, vx: number, vy: number) {
         if (!src ) return;
-        let dx = vx * game.currentScene().eventContext.deltaTime, dy = vy * game.currentScene().eventContext.deltaTime
-        let uimg = src.clone(), usrc = image.create(uimg.width, uimg.height)
-        let dxi = mod(dx, uimg.width), dyi = mod(dy, uimg.height)
+        const dx = Math.floor(game.currentScene().eventContext.deltaTime * vx), dy = Math.floor(game.currentScene().eventContext.deltaTime * vy)
+        const uimg = src.clone(), usrc = image.create(uimg.width, uimg.height)
+        const dxi = mod(dx, uimg.width), dyi = mod(dy, uimg.height)
         usrc.drawImage(uimg, dxi - uimg.width, dyi - uimg.height); usrc.drawImage(uimg, dxi, dyi)
         usrc.drawImage(uimg, dxi - uimg.width, dyi); usrc.drawImage(uimg, dxi, dyi - uimg.height)
         src.drawImage(usrc,0,0)
@@ -99,6 +99,7 @@ namespace images {
 
     function mod(numv: number,modv: number) {
         let uvn = numv
+        if (uvn < modv && uvn >= 0) return uvn
         while (uvn >= modv || uvn < 0) {
             if (uvn >= modv) uvn -= modv;
             else if (uvn < 0) uvn += modv;
