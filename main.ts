@@ -1,6 +1,8 @@
 
 namespace images {
 
+    const inProgress: {[id: number]: boolean} = {}
+
     export enum imgsize {
         //% block="width"
         width = 1,
@@ -23,15 +25,9 @@ namespace images {
     export function imageSize(src: Image, ve: imgsize) {
         if (!src) return -1
         switch (ve) {
-            case 1:
-                return src.width
-                break;
-            case 0:
-                return src.width * src.height
-                break;
-            case -1:
-                return src.height
-                break;
+            case 1: return src.width; break;
+            case 0: return src.width * src.height; break;
+            case -1: return src.height; break;
         }
         return -1
     }
@@ -89,21 +85,27 @@ namespace images {
     //% weight=80
     export function scroll(src: Image, vx: number, vy: number) {
         if (!src ) return;
+        if (inProgress[1]) return;
+        inProgress[1] = true 
         const dx = Math.floor(game.currentScene().eventContext.deltaTime * vx), dy = Math.floor(game.currentScene().eventContext.deltaTime * vy)
         const uimg = src.clone(), usrc = image.create(uimg.width, uimg.height)
-        const dxi = mod(dx, uimg.width), dyi = mod(dy, uimg.height)
+        const dxi = modules(dx, uimg.width), dyi = modules(dy, uimg.height)
         usrc.drawImage(uimg, dxi - uimg.width, dyi - uimg.height); usrc.drawImage(uimg, dxi, dyi)
         usrc.drawImage(uimg, dxi - uimg.width, dyi); usrc.drawImage(uimg, dxi, dyi - uimg.height)
         src.drawImage(usrc,0,0)
+        inProgress[1] = false
     }
 
-    function mod(numv: number,modv: number) {
+    function modules(numv: number,modv: number) {
+        if (inProgress[0]) return 0
+        inProgress[0] = true 
         let uvn = numv
         if (uvn < modv && uvn >= 0) return uvn
         while (uvn >= modv || uvn < 0) {
             if (uvn >= modv) uvn -= modv;
             else if (uvn < 0) uvn += modv;
         }
+        inProgress[0] = false 
         return uvn
     }
 
@@ -196,7 +198,7 @@ namespace images {
      * @param the checking mode
      */
     //% blockid=images_blitrow
-    //% block="$to get blit row at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
+    //% block="$to get checking blit at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
     //% to.shadow=variables_get to.defl=picture
     //% tspr.shadow=toggleYesNo
     //% cek.shadow=toggleYesNo
