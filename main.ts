@@ -1,7 +1,7 @@
 
 namespace images {
 
-    const inProgress: {[id: number]: boolean} = {}
+    let inProgress: {[id: number]: boolean} = {}
 
     export enum imgsize {
         //% block="width"
@@ -97,15 +97,12 @@ namespace images {
     }
 
     function modules(numv: number,modv: number) {
-        if (inProgress[0]) return 0
-        inProgress[0] = true 
         let uvn = numv
         if (uvn < modv && uvn >= 0) return uvn
         while (uvn >= modv || uvn < 0) {
             if (uvn >= modv) uvn -= modv;
             else if (uvn < 0) uvn += modv;
         }
-        inProgress[0] = false 
         return uvn
     }
 
