@@ -194,7 +194,7 @@ namespace images {
      * @param the transparenting mode
      * @param the checking mode
      */
-    //% blockid=images_blitrow
+    //% blockid=images_blit
     //% block="$to get checking blit at distX: $dsx distY: $dsy distW: $dsw distH: $dsh from $src=screen_image_picker at X: $srx Y: $sry width: $srw height: $srh|| transparent mode: $tspr and get checking: $cek"
     //% to.shadow=variables_get to.defl=picture
     //% tspr.shadow=toggleYesNo
