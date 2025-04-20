@@ -87,7 +87,7 @@ namespace images {
         if (!src ) return;
         if (inProgress[1]) return;
         inProgress[1] = true 
-        const dx = Math.round(game.currentScene().eventContext.deltaTime * vx), dy = Math.round(game.currentScene().eventContext.deltaTime * vy)
+        const dx = game.currentScene().eventContext.deltaTime * vx, dy = game.currentScene().eventContext.deltaTime * vy
         const uimg = src.clone(), usrc = image.create(uimg.width, uimg.height)
         const dxi = modules(dx, uimg.width), dyi = modules(dy, uimg.height)
         usrc.drawImage(uimg, dxi - uimg.width, dyi - uimg.height); usrc.drawImage(uimg, dxi, dyi)
@@ -113,7 +113,8 @@ namespace images {
         if (inProgress[2]) return;
         inProgress[2] = true
         const uimg = src.clone(), usrc = image.create(uimg.width, uimg.height )
-        const dxi = modules(dx, uimg.width), dyi = modules(dy, uimg.height)
+        let dxi = modules(dx, uimg.width), dyi = modules(dy, uimg.height)
+        dxi = Math.round(dxi), dyi = Math.round(dyi)
         usrc.drawImage(uimg, dxi - uimg.width, dyi - uimg.height); usrc.drawImage(uimg, dxi, dyi)
         usrc.drawImage(uimg, dxi - uimg.width, dyi); usrc.drawImage(uimg, dxi, dyi - uimg.height)
         src.drawImage(usrc,0,0)
