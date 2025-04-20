@@ -72,10 +72,10 @@ namespace images {
     }
 
     /**
-     * stamp image into the image in scrolling
+     * stamp image with scrolling in velocity
      * @param your image to scrolling
-     * @param direction x number value
-     * @param direction y number value
+     * @param velocity x number value
+     * @param velocity y number value
      */
     //% blockid=images_scrollimage_velocity
     //% block="scroll $src=screen_image_picker by vx: $vx vy: $vy"
@@ -96,6 +96,18 @@ namespace images {
         inProgress[1] = false
     }
 
+    /**
+     * stamp image with scrolling in direction
+     * @param your image to scrolling
+     * @param direction x number value
+     * @param direction y number value
+     */
+    //% blockid=images_scrollimage_direction
+    //% block="scroll $src=screen_image_picker by dx: $dx dy: $dy"
+    //% to.shadow=variables_get to.defl=picture
+    //% group="images util"
+    //% inlineInputMode=inline
+    //% weight=79
     export function scrollD(src: Image, dx: number, dy: number) {
         if (!src ) return;
         if (inProgress[2]) return;
@@ -130,7 +142,7 @@ namespace images {
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
     //% inlineInputMode=inline
-    //% weight=79
+    //% weight=78
     export function stamp(src: Image, to: Image, x: number, y: number) {
         if (!src || !to) return;
         to.drawTransparentImage(src, x, y)
@@ -148,7 +160,7 @@ namespace images {
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
     //% inlineInputMode=inline
-    //% weight=78
+    //% weight=77
     export function restamp(src: Image, to: Image, x: number, y: number) {
         if (!src || !to) return;
         to.drawImage(src, x, y)
