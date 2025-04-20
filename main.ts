@@ -72,28 +72,40 @@ namespace images {
     }
 
     /**
-     * stamp image into the image
+     * stamp image into the image in scrolling
      * @param your image to scrolling
      * @param direction x number value
      * @param direction y number value
      */
-    //% blockid=images_scrollimage
+    //% blockid=images_scrollimage_velocity
     //% block="scroll $src=screen_image_picker by vx: $vx vy: $vy"
     //% to.shadow=variables_get to.defl=picture
     //% group="images util"
     //% inlineInputMode=inline
     //% weight=80
-    export function scroll(src: Image, vx: number, vy: number) {
+    export function scrollV(src: Image, vx: number, vy: number) {
         if (!src ) return;
         if (inProgress[1]) return;
         inProgress[1] = true 
-        const dx = Math.floor(game.currentScene().eventContext.deltaTime * vx), dy = Math.floor(game.currentScene().eventContext.deltaTime * vy)
+        const dx = Math.round(game.currentScene().eventContext.deltaTime * vx), dy = Math.round(game.currentScene().eventContext.deltaTime * vy)
         const uimg = src.clone(), usrc = image.create(uimg.width, uimg.height)
         const dxi = modules(dx, uimg.width), dyi = modules(dy, uimg.height)
         usrc.drawImage(uimg, dxi - uimg.width, dyi - uimg.height); usrc.drawImage(uimg, dxi, dyi)
         usrc.drawImage(uimg, dxi - uimg.width, dyi); usrc.drawImage(uimg, dxi, dyi - uimg.height)
         src.drawImage(usrc,0,0)
         inProgress[1] = false
+    }
+
+    export function scrollD(src: Image, dx: number, dy: number) {
+        if (!src ) return;
+        if (inProgress[2]) return;
+        inProgress[2] = true
+        const uimg = src.clone(), usrc = image.create(uimg.width, uimg.height )
+        const dxi = modules(dx, uimg.width), dyi = modules(dy, uimg.height)
+        usrc.drawImage(uimg, dxi - uimg.width, dyi - uimg.height); usrc.drawImage(uimg, dxi, dyi)
+        usrc.drawImage(uimg, dxi - uimg.width, dyi); usrc.drawImage(uimg, dxi, dyi - uimg.height)
+        src.drawImage(usrc,0,0)
+        inProgress[2] = false
     }
 
     function modules(numv: number,modv: number) {
