@@ -400,13 +400,11 @@ namespace images {
     //%inlineInputMode=inline
     //%weight=67
     export function crop(img: Image, cropt: croptype) {
-        let imgv: Image = null
         switch(cropt) {
-            case 1: imgv = cropInit(img, false, true); break;
-            case -1: imgv = cropInit(img, true, false); break;
-            case 0: default: imgv = cropInit(img, true, true); break;
+            case 1: return cropInit(img, false, true); break;
+            case -1: return cropInit(img, true, false); break;
+            case 0: default: return cropInit(img, true, true); break;
         }
-        return imgv
     }
 
 }
