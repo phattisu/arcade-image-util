@@ -12,6 +12,92 @@ namespace images {
         height = -1
     }
 
+    export enum croptype {
+        //% block="horzontal"
+        h = 1,
+        //% block="vertical"
+        v = -1,
+        //% block="horzontal and vertical"
+        handv = 0,
+    }
+
+    function rot90(im: Image) {
+        const w = im.width;
+        const h = im.height;
+        const output = image.create(h, w);
+        for (let x = 0; x < w; x++) {
+            for (let y = 0; y < h; y++) {
+                const c = im.getPixel(x, h - y - 1);
+                output.setPixel(
+                    y,
+                    x,
+                    c
+                );
+            }
+        }
+        return output;
+    }
+
+    function cropInit(imgi: Image, vertical: boolean, horzontal: boolean) {
+        let bufv: Buffer;
+        let uimg: Image, vimg: Image
+        let start: boolean, stop: boolean
+        let i: number, count: number[] = []
+        let x0 = 0, y0 = 0, x1 = imgi.width, y1 = imgi.height
+        if (horzontal) {
+            uimg = imgi.clone()
+            start = false, stop = false
+            bufv = pins.createBuffer(uimg.height)
+            for (let x = 0; x < uimg.width; x+=i) {
+                count = []
+                for (i = 0;x + i < uimg.width; i++) {
+                    uimg.getRows(x + i, bufv)
+                    count.push(bufv.toArray(NumberFormat.UInt8LE).filter(val => val > 0).length)
+                    if ((stop && (count[i - 1] > 0 && count[i] <= 0)) || (!stop && (start && count[i] <= 0) || (!start && count[i] > 0))) break;
+                }
+                if (start) {
+                    if (stop) { 
+                        if (x + i < uimg.width) x1 = x + i
+                    } else {
+                        x1 = x + i
+                        stop = true
+                    }
+                } else {
+                    x0 = x + i
+                    start = true
+                }
+            }
+        }
+        if (vertical) {
+            start = false, stop = false
+            uimg = imgi.clone()
+            uimg = rot90(rot90(rot90(uimg.clone())))
+            bufv = pins.createBuffer(uimg.height)
+            for (let x = 0; x < uimg.width; x+=i) {
+                count = []
+                for (i = 0;x + i < uimg.width; i++) {
+                    uimg.getRows(x + i, bufv)
+                    count.push(bufv.toArray(NumberFormat.UInt8LE).filter(val => val > 0).length)
+                    if ((stop && (count[i - 1] > 0 && count[i] <= 0)) || (!stop && (start && count[i] <= 0) || (!start && count[i] > 0))) break;
+                }
+                if (start) {
+                    if (stop) {
+                        if (x + i < uimg.width) y1 = x + i
+                    } else {
+                        y1 = x + i
+                        stop = true
+                    }
+                } else {
+                    y0 = x + i
+                    start = true
+                }
+            }
+        }
+        vimg = image.create(Math.abs(x0 - x1), Math.abs(y0 - y1))
+        vimg.drawImage(imgi, -x0, -y0)
+        return vimg
+    }
+
     /**
      * get image size by width, height of fullbitmap
      * @param image for size data
@@ -122,13 +208,9 @@ namespace images {
     }
 
     function modules(numv: number,modv: number) {
-        let uvn = numv
-        if (uvn < modv && uvn >= 0) return uvn
-        while (uvn >= modv || uvn < 0) {
-            if (uvn >= modv) uvn -= modv;
-            else if (uvn < 0) uvn += modv;
-        }
-        return uvn
+        modv = Math.abs(modv)
+        if (modv <= 0) return 0
+        return ((numv % modv) + modv) % modv
     }
 
     /**
@@ -162,7 +244,7 @@ namespace images {
     //% group="images util"
     //% inlineInputMode=inline
     //% weight=77
-    export function restamp(src: Image, to: Image, x: number, y: number) {
+    export function boxstamp(src: Image, to: Image, x: number, y: number) {
         if (!src || !to) return;
         to.drawImage(src, x, y)
     }
@@ -305,6 +387,26 @@ namespace images {
         const imax = Math.max(uimg.width, uimg.height), uuimg = image.create(imax, imax)
         stamp(uimg.clone(), uuimg, Math.floor((imax / 2) - (uimg.width / 2)), Math.floor((imax / 2) - (uimg.height / 2)))
         uimg.copyFrom(uuimg)
+    }
+
+    /**
+     * get image croping the quiet area
+     * @param the current image
+     * @param croping type -1=vertical, 0=horzontal and vertical, 1=horzontal
+     */
+    //%blockid=images_cropimage
+    //%block="get $img=screen_image_picker crop image in $cropt"
+    //%group="images util"
+    //%inlineInputMode=inline
+    //%weight=67
+    export function crop(img: Image, cropt: croptype) {
+        let imgv: Image = null
+        switch(cropt) {
+            case 1: imgv = cropInit(img, false, true); break;
+            case -1: imgv = cropInit(img, true, false); break;
+            case 0: default: imgv = cropInit(img, true, true); break;
+        }
+        return imgv
     }
 
 }
