@@ -28,11 +28,7 @@ namespace images {
         for (let x = 0; x < w; x++) {
             for (let y = 0; y < h; y++) {
                 const c = im.getPixel(x, h - y - 1);
-                output.setPixel(
-                    y,
-                    x,
-                    c
-                );
+                output.setPixel(y, x, c);
             }
         }
         return output;
