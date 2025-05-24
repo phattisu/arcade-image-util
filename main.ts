@@ -425,13 +425,15 @@ namespace images {
         bufv = pins.createBuffer(img.height)
         buft = pins.createBuffer(from.height)
         vimg = image.create(img.width, img.height)
-        for (let xi = x; xi < x + img.width; xi++) {
-            from.getRows(xi, buft)
-            img.getRows(xi - x, bufv)
-            for (let yi = y; yi < y + img.height; yi++) {
-                if (arrc.indexOf(buft[yi]) >= 0) bufv[yi - y] = 0
+        for (let xi = 0; xi < img.width; xi++) {
+            from.getRows(xi - x, buft)
+            img.getRows(xi, bufv)
+            if (xi >= x && xi < x + from.width) {
+                for (let yi = 0; yi < img.height; yi++) {
+                    if (arrc.indexOf(buft[yi - y]) >= 0) bufv[yi] = 0
+                }
             }
-            vimg.setRows(xi - x, bufv)
+            vimg.setRows(xi, bufv)
         }
         return vimg
     }
