@@ -404,4 +404,36 @@ namespace images {
         }
     }
 
+    /**
+     * get image substacting from substactor image
+     * @param current image
+     * @param from substactor image
+     * @param x position from image
+     * @param y position from image
+     * @param array of color index
+     */
+    //%blockid=images_substracting
+    //%block="get $img=screen_image_picker substacting $from=screen_image_picker at $x $y by element of $arrc"
+    //%arrc.shadow=lists_create_with arrc.defl=colorindexpicker
+    //%group="images util"
+    //%inlineInputMode=inline
+    //%weight=66
+    export function sub(img: Image, from: Image, x: number, y: number, arrc: number[]) {
+        if (!img || !from) return null
+        if (from.width > img.width || from.height > img.height) return img.clone()
+        let bufv: Buffer, buft: Buffer, vimg: Image
+        bufv = pins.createBuffer(img.height)
+        buft = pins.createBuffer(from.height)
+        vimg = image.create(img.width, img.height)
+        for (let xi = x; xi < x + img.width; xi++) {
+            from.getRows(xi, buft)
+            img.getRows(xi - x, bufv)
+            for (let yi = y; yi < y + img.height; yi++) {
+                if (arrc.indexOf(buft[yi]) >= 0) bufv[yi - y] = 0
+            }
+            vimg.setRows(xi - x, bufv)
+        }
+        return vimg
+    }
+
 }
