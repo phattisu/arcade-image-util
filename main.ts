@@ -21,6 +21,20 @@ namespace images {
         handv = 0,
     }
 
+    function rot90(im: Image) {
+        const w = im.width;
+        const h = im.height;
+        const output = image.create(h, w);
+        for (let x = 0; x < w; x++) {
+            for (let y = 0; y < h; y++) {
+                const c = im.getPixel(x, h - y - 1);
+                output.setPixel(y, x, c);
+             }
+        }
+        return output;
+    }
+
+
     function cropInit(imgi: Image, vertical: boolean, horzontal: boolean) {
         let bufv: Buffer;
         let uimg: Image, vimg: Image
@@ -53,7 +67,7 @@ namespace images {
         }
         if (vertical) {
             start = false, stop = false
-            uimg = imgi.clone().rotated(270)
+            uimg = rot90(rot90(rot90(imgi.clone())))
             bufv = pins.createBuffer(uimg.height)
             for (let x = 0; x < uimg.width; x+=i) {
                 count = []
@@ -382,6 +396,7 @@ namespace images {
     //%inlineInputMode=inline
     //%weight=67
     export function crop(img: Image, cropt: croptype) {
+        if (!img) return null
         switch(cropt) {
             case 1: return cropInit(img, false, true); break;
             case -1: return cropInit(img, true, false); break;
