@@ -1,6 +1,6 @@
 {
     "name": "arcade-image-util",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "more utility image",
     "dependencies": {
         "device": "*"
