@@ -497,7 +497,7 @@ namespace images {
     export function stampPolygon4Image(from: Image, to: Image, size: number, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) {
         for (let y = 0; y < from.height; y++) {
             for (let x = 0; x < from.width; x++) {
-                const col = from.getPixel(from.width - x, from.height - y);
+                const col = from.getPixel(x, y);
                 if (col && col > 0) {
                     const sx = (s: number, m?: boolean) => Math.trunc((1 - ((y * s) + (m ? s : 0) - (s / 2)) / (from.height * s)) * (x1 + ((x * s) + (m ? s : 0) - (s / 2)) / (from.width * s) * (x2 - x1)) + ((y * s) + (m ? s : 0) - (s / 2)) / (from.height * s) * (x3 + ((x * s) + (m ? s : 0) - (s / 2)) / (from.width * s) * (x4 - x3)))
                     const sy = (s: number, m?: boolean) => Math.trunc((1 - ((x * s) + (m ? s : 0) - (s / 2)) / (from.width * s)) * (y1 + ((y * s) + (m ? s : 0) - (s / 2)) / (from.height * s) * (y3 - y1)) + ((x * s) + (m ? s : 0) - (s / 2)) / (from.width * s) * (y2 + ((y * s) + (m ? s : 0) - (s / 2)) / (from.height * s) * (y4 - y2)))
